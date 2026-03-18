@@ -4,6 +4,13 @@ A web application for managing company workshops and registrations.
 
 **Stack:** Laravel 12 · Vue 3 · Inertia.js · SQLite · Pest
 
+**Live demo:** [internal-academy-production.up.railway.app](https://internal-academy-production.up.railway.app)
+
+| Role     | Email                | Password |
+|----------|----------------------|----------|
+| Admin    | `admin@academy.test` | password |
+| Employee | *(any seeded user)*  | password |
+
 ---
 
 ## Table of Contents
