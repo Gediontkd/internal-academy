@@ -40,25 +40,33 @@ class RegistrationController extends Controller
     {
         $user = $request->user();
 
-        // Already registered?
-        if ($workshop->registrations()->where('user_id', $user->id)->exists()) {
-            return back()->with('error', 'You are already registered for this workshop.');
+        // Guard: cannot register for a past workshop
+        if ($workshop->start_time->isPast()) {
+            return back()->with('error', 'This workshop has already started.');
         }
 
-        // No-ubiquity check: overlapping confirmed registrations
-        $overlap = Registration::where('user_id', $user->id)
-            ->where('status', 'confirmed')
-            ->whereHas('workshop', function ($q) use ($workshop) {
-                $q->where('start_time', '<', $workshop->end_time)
-                  ->where('end_time', '>', $workshop->start_time);
-            })
-            ->exists();
+        $error = DB::transaction(function () use ($workshop, $user) {
+            // Lock the workshop row to serialize concurrent registrations
+            Workshop::lockForUpdate()->findOrFail($workshop->id);
 
-        if ($overlap) {
-            return back()->with('error', 'You already have a confirmed workshop that overlaps with this one.');
-        }
+            // Already registered?
+            if ($workshop->registrations()->where('user_id', $user->id)->exists()) {
+                return 'You are already registered for this workshop.';
+            }
 
-        DB::transaction(function () use ($workshop, $user) {
+            // No-ubiquity check: overlapping confirmed registrations
+            $overlap = Registration::where('user_id', $user->id)
+                ->where('status', 'confirmed')
+                ->whereHas('workshop', function ($q) use ($workshop) {
+                    $q->where('start_time', '<', $workshop->end_time)
+                      ->where('end_time', '>', $workshop->start_time);
+                })
+                ->exists();
+
+            if ($overlap) {
+                return 'You already have a confirmed workshop that overlaps with this one.';
+            }
+
             if ($workshop->isFull()) {
                 $nextPosition = $workshop->waitingRegistrations()->max('waiting_position') + 1;
                 Registration::create([
@@ -74,7 +82,13 @@ class RegistrationController extends Controller
                     'status' => 'confirmed',
                 ]);
             }
+
+            return null;
         });
+
+        if ($error) {
+            return back()->with('error', $error);
+        }
 
         return back()->with('success', 'Successfully registered.');
     }
@@ -92,8 +106,17 @@ class RegistrationController extends Controller
             $registration->delete();
 
             if ($wasConfirmed) {
-                // Promote the first person on the waiting list
-                $next = $workshop->waitingRegistrations()->first();
+                // Promote the first waiting user who has no overlapping confirmed workshop
+                $next = $workshop->waitingRegistrations()
+                    ->whereDoesntHave('user.registrations', function ($q) use ($workshop) {
+                        $q->where('status', 'confirmed')
+                          ->whereHas('workshop', function ($q2) use ($workshop) {
+                              $q2->where('start_time', '<', $workshop->end_time)
+                                 ->where('end_time', '>', $workshop->start_time);
+                          });
+                    })
+                    ->first();
+
                 if ($next) {
                     $next->update([
                         'status' => 'confirmed',

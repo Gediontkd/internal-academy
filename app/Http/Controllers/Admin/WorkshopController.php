@@ -72,12 +72,16 @@ class WorkshopController extends Controller
 
     public function update(Request $request, Workshop $workshop)
     {
+        $confirmedCount = $workshop->confirmedRegistrations()->count();
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
-            'capacity' => 'required|integer|min:1',
+            'capacity' => "required|integer|min:{$confirmedCount}",
+        ], [
+            'capacity.min' => "Capacity cannot be less than the number of confirmed participants ({$confirmedCount}).",
         ]);
 
         $workshop->update($validated);
