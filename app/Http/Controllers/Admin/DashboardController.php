@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\WorkshopResource;
 use App\Models\Registration;
 use App\Models\Workshop;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,28 +29,16 @@ class DashboardController extends Controller
             ->orderByDesc('confirmed_registrations_count')
             ->first();
 
-        $workshopsWithCounts = Workshop::withCount(['confirmedRegistrations', 'waitingRegistrations'])
+        $workshops = Workshop::withCount(['confirmedRegistrations', 'waitingRegistrations'])
             ->orderBy('start_time')
-            ->get()
-            ->map(fn ($w) => [
-                'id' => $w->id,
-                'title' => $w->title,
-                'start_time' => $w->start_time->toISOString(),
-                'capacity' => $w->capacity,
-                'confirmed_count' => $w->confirmed_registrations_count,
-                'waiting_count' => $w->waiting_registrations_count,
-            ]);
+            ->get();
 
         return [
-            'total_workshops' => Workshop::count(),
+            'total_workshops'     => Workshop::count(),
             'total_registrations' => Registration::where('status', 'confirmed')->count(),
-            'total_waiting' => Registration::where('status', 'waiting')->count(),
-            'most_popular' => $mostPopular ? [
-                'id' => $mostPopular->id,
-                'title' => $mostPopular->title,
-                'confirmed_count' => $mostPopular->confirmed_registrations_count,
-            ] : null,
-            'workshops' => $workshopsWithCounts,
+            'total_waiting'       => Registration::where('status', 'waiting')->count(),
+            'most_popular'        => $mostPopular ? (new WorkshopResource($mostPopular))->toArray(request()) : null,
+            'workshops'           => WorkshopResource::collection($workshops)->toArray(request()),
         ];
     }
 }
