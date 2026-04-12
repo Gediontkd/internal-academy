@@ -7,14 +7,14 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; margin: 0; padding: 0; }
         .wrapper { max-width: 560px; margin: 40px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-        .header { background: linear-gradient(135deg, #4f46e5, #6d28d9); padding: 32px 40px; }
+        .header { background: linear-gradient(135deg, #e11d48, #be123c); padding: 32px 40px; }
         .header h1 { margin: 0; font-size: 20px; font-weight: 700; color: #ffffff; }
-        .header p  { margin: 4px 0 0; font-size: 13px; color: #c7d2fe; }
+        .header p  { margin: 4px 0 0; font-size: 13px; color: #fecdd3; }
         .body { padding: 32px 40px; }
         .body p { margin: 0 0 16px; font-size: 15px; color: #374151; line-height: 1.6; }
-        .card { background: #f0f4ff; border-left: 4px solid #4f46e5; border-radius: 8px; padding: 16px 20px; margin: 24px 0; }
-        .card .title { font-size: 16px; font-weight: 700; color: #1e1b4b; margin: 0 0 8px; }
-        .card .meta  { font-size: 13px; color: #4f46e5; margin: 0; }
+        .card { background: #fff1f2; border-left: 4px solid #e11d48; border-radius: 8px; padding: 16px 20px; margin: 24px 0; }
+        .card .title { font-size: 16px; font-weight: 700; color: #881337; margin: 0 0 8px; }
+        .card .meta  { font-size: 13px; color: #e11d48; margin: 0; }
         .footer { background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 20px 40px; text-align: center; font-size: 12px; color: #9ca3af; }
     </style>
 </head>

@@ -25,7 +25,7 @@ const isAdmin = computed(() => page.props.auth.user.role === 'admin');
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')" class="flex items-center gap-2">
-                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-600">
                                         <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                         </svg>
@@ -74,7 +74,7 @@ const isAdmin = computed(() => page.props.auth.user.role === 'admin');
                                                 class="inline-flex items-center gap-2 rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
                                                 <span
-                                                    :class="isAdmin ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'"
+                                                    :class="isAdmin ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'"
                                                     class="hidden sm:inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
                                                 >
                                                     {{ isAdmin ? 'Admin' : 'Employee' }}
