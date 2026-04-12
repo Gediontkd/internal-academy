@@ -104,7 +104,7 @@ function unregister(workshop) {
                                     @click="register(workshop)"
                                     class="w-full rounded-lg px-4 py-2 text-sm font-medium transition"
                                     :class="workshop.available_seats > 0
-                                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                                        ? 'bg-rose-600 text-white hover:bg-rose-700'
                                         : 'bg-amber-500 text-white hover:bg-amber-600'"
                                 >
                                     {{ workshop.available_seats > 0 ? 'Register' : 'Join Waiting List' }}

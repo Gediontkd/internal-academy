@@ -40,7 +40,7 @@ const features = [
             <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <!-- Book icon -->
-                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-600">
                         <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
@@ -52,7 +52,7 @@ const features = [
                     <Link
                         v-if="$page.props.auth.user"
                         :href="route('dashboard')"
-                        class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+                        class="rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700 transition"
                     >
                         Go to Dashboard
                     </Link>
@@ -66,7 +66,7 @@ const features = [
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+                            class="rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700 transition"
                         >
                             Get started
                         </Link>
@@ -76,7 +76,7 @@ const features = [
         </nav>
 
         <!-- Hero -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800">
+        <section class="relative overflow-hidden bg-gradient-to-br from-rose-600 via-rose-700 to-rose-800">
             <!-- Background decoration -->
             <div class="absolute inset-0 opacity-10">
                 <div class="absolute -top-40 -right-32 h-96 w-96 rounded-full bg-white"></div>
@@ -91,10 +91,10 @@ const features = [
 
                 <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
                     Grow together.<br>
-                    <span class="text-indigo-200">Learn at work.</span>
+                    <span class="text-rose-200">Learn at work.</span>
                 </h1>
 
-                <p class="mx-auto mt-6 max-w-xl text-lg text-indigo-100 leading-relaxed">
+                <p class="mx-auto mt-6 max-w-xl text-lg text-rose-100 leading-relaxed">
                     Internal Academy brings your team's workshops, training sessions, and knowledge-sharing events into one clean, easy-to-use platform.
                 </p>
 
@@ -102,18 +102,18 @@ const features = [
                     <Link
                         v-if="canLogin && !$page.props.auth.user"
                         :href="route('login')"
-                        class="w-full sm:w-auto rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-indigo-700 shadow-lg hover:bg-indigo-50 transition"
+                        class="w-full sm:w-auto rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-rose-700 shadow-lg hover:bg-rose-50 transition"
                     >
                         Sign in to your account
                     </Link>
                     <Link
                         v-if="$page.props.auth.user"
                         :href="route('dashboard')"
-                        class="w-full sm:w-auto rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-indigo-700 shadow-lg hover:bg-indigo-50 transition"
+                        class="w-full sm:w-auto rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-rose-700 shadow-lg hover:bg-rose-50 transition"
                     >
                         Go to Dashboard
                     </Link>
-                    <a href="#features" class="text-sm font-medium text-indigo-100 hover:text-white transition flex items-center gap-1">
+                    <a href="#features" class="text-sm font-medium text-rose-100 hover:text-white transition flex items-center gap-1">
                         See what's included
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -125,15 +125,15 @@ const features = [
                 <div class="mt-16 grid grid-cols-3 gap-6 max-w-sm mx-auto sm:max-w-md">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-white">2</div>
-                        <div class="text-xs text-indigo-200 mt-0.5">Roles</div>
+                        <div class="text-xs text-rose-200 mt-0.5">Roles</div>
                     </div>
                     <div class="text-center border-x border-white/20">
                         <div class="text-2xl font-bold text-white">∞</div>
-                        <div class="text-xs text-indigo-200 mt-0.5">Workshops</div>
+                        <div class="text-xs text-rose-200 mt-0.5">Workshops</div>
                     </div>
                     <div class="text-center">
                         <div class="text-2xl font-bold text-white">Live</div>
-                        <div class="text-xs text-indigo-200 mt-0.5">Stats</div>
+                        <div class="text-xs text-rose-200 mt-0.5">Stats</div>
                     </div>
                 </div>
             </div>
@@ -153,8 +153,8 @@ const features = [
                         :key="feature.title"
                         class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
                     >
-                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 mb-5">
-                            <svg class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 mb-5">
+                            <svg class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                 <path stroke-linecap="round" stroke-linejoin="round" :d="feature.icon" />
                             </svg>
                         </div>
@@ -170,31 +170,31 @@ const features = [
             <div class="mx-auto max-w-6xl px-6">
                 <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
                     <!-- Admin side -->
-                    <div class="rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-50 p-8 border border-indigo-100">
+                    <div class="rounded-2xl bg-gradient-to-br from-rose-50 to-rose-50 p-8 border border-rose-100">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600">
+                            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-rose-600">
                                 <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                 </svg>
                             </div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-100 px-2.5 py-1 rounded-full">Admin</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-rose-600 bg-rose-100 px-2.5 py-1 rounded-full">Admin</span>
                         </div>
                         <h3 class="text-xl font-bold text-gray-900 mb-3">Full control for HR & managers</h3>
                         <ul class="space-y-3 text-sm text-gray-600">
                             <li class="flex items-center gap-2">
-                                <svg class="h-4 w-4 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <svg class="h-4 w-4 text-rose-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 Create, edit, and delete workshops
                             </li>
                             <li class="flex items-center gap-2">
-                                <svg class="h-4 w-4 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <svg class="h-4 w-4 text-rose-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 Set capacity and schedule
                             </li>
                             <li class="flex items-center gap-2">
-                                <svg class="h-4 w-4 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <svg class="h-4 w-4 text-rose-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 Live statistics dashboard with fill rates
                             </li>
                             <li class="flex items-center gap-2">
-                                <svg class="h-4 w-4 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <svg class="h-4 w-4 text-rose-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                 Automatic reminder emails via artisan
                             </li>
                         </ul>
@@ -235,22 +235,22 @@ const features = [
         </section>
 
         <!-- CTA -->
-        <section class="py-20 bg-indigo-600">
+        <section class="py-20 bg-rose-600">
             <div class="mx-auto max-w-2xl px-6 text-center">
                 <h2 class="text-2xl font-bold text-white sm:text-3xl">Ready to get started?</h2>
-                <p class="mt-4 text-indigo-200">Log in with your company credentials and explore your upcoming workshops.</p>
+                <p class="mt-4 text-rose-200">Log in with your company credentials and explore your upcoming workshops.</p>
                 <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
                         v-if="canLogin && !$page.props.auth.user"
                         :href="route('login')"
-                        class="rounded-xl bg-white px-8 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 transition"
+                        class="rounded-xl bg-white px-8 py-3 text-sm font-semibold text-rose-700 hover:bg-rose-50 transition"
                     >
                         Log in
                     </Link>
                     <Link
                         v-if="$page.props.auth.user"
                         :href="route('dashboard')"
-                        class="rounded-xl bg-white px-8 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 transition"
+                        class="rounded-xl bg-white px-8 py-3 text-sm font-semibold text-rose-700 hover:bg-rose-50 transition"
                     >
                         Open Dashboard
                     </Link>
@@ -262,7 +262,7 @@ const features = [
         <footer class="bg-gray-900 py-8">
             <div class="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-2">
-                    <div class="flex h-6 w-6 items-center justify-center rounded bg-indigo-600">
+                    <div class="flex h-6 w-6 items-center justify-center rounded bg-rose-600">
                         <svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>

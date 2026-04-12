@@ -32,7 +32,7 @@ function deleteWorkshop(workshop) {
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">Manage Workshops</h2>
                 <Link
                     :href="route('admin.workshops.create')"
-                    class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+                    class="inline-flex items-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700 transition"
                 >
                     + New Workshop
                 </Link>
@@ -47,7 +47,7 @@ function deleteWorkshop(workshop) {
                 </div>
 
                 <div v-if="workshops.length === 0" class="text-center text-gray-500 py-16 bg-white rounded-xl border border-gray-200">
-                    No workshops yet. <Link :href="route('admin.workshops.create')" class="text-indigo-600 underline">Create the first one.</Link>
+                    No workshops yet. <Link :href="route('admin.workshops.create')" class="text-rose-600 underline">Create the first one.</Link>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -75,7 +75,7 @@ function deleteWorkshop(workshop) {
                                     <div class="w-24 bg-gray-100 rounded-full h-1.5 mt-1">
                                         <div
                                             class="h-1.5 rounded-full"
-                                            :class="workshop.available_seats === 0 ? 'bg-red-500' : 'bg-indigo-500'"
+                                            :class="workshop.available_seats === 0 ? 'bg-red-500' : 'bg-rose-500'"
                                             :style="{ width: Math.min(100, Math.round(workshop.confirmed_count / workshop.capacity * 100)) + '%' }"
                                         ></div>
                                     </div>
@@ -83,7 +83,7 @@ function deleteWorkshop(workshop) {
                                 <td class="px-6 py-4 text-right whitespace-nowrap space-x-2">
                                     <Link
                                         :href="route('admin.workshops.edit', workshop.id)"
-                                        class="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                                        class="text-sm text-rose-600 hover:text-rose-800 font-medium"
                                     >Edit</Link>
                                     <button
                                         @click="deleteWorkshop(workshop)"

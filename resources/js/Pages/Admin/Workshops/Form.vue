@@ -52,7 +52,7 @@ function submit() {
                             <input
                                 v-model="form.title"
                                 type="text"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 text-sm"
                                 placeholder="e.g. Introduction to Domain-Driven Design"
                             />
                             <p v-if="form.errors.title" class="mt-1 text-sm text-red-600">{{ form.errors.title }}</p>
@@ -63,7 +63,7 @@ function submit() {
                             <textarea
                                 v-model="form.description"
                                 rows="4"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 text-sm"
                                 placeholder="What will participants learn?"
                             ></textarea>
                             <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{ form.errors.description }}</p>
@@ -75,7 +75,7 @@ function submit() {
                                 <input
                                     v-model="form.start_time"
                                     type="datetime-local"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 text-sm"
                                 />
                                 <p v-if="form.errors.start_time" class="mt-1 text-sm text-red-600">{{ form.errors.start_time }}</p>
                             </div>
@@ -84,7 +84,7 @@ function submit() {
                                 <input
                                     v-model="form.end_time"
                                     type="datetime-local"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 text-sm"
                                 />
                                 <p v-if="form.errors.end_time" class="mt-1 text-sm text-red-600">{{ form.errors.end_time }}</p>
                             </div>
@@ -96,7 +96,7 @@ function submit() {
                                 v-model.number="form.capacity"
                                 type="number"
                                 min="1"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500 text-sm"
                             />
                             <p v-if="form.errors.capacity" class="mt-1 text-sm text-red-600">{{ form.errors.capacity }}</p>
                         </div>
@@ -111,7 +111,7 @@ function submit() {
                             <button
                                 type="submit"
                                 :disabled="form.processing"
-                                class="rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50 transition"
+                                class="rounded-lg bg-rose-600 px-6 py-2 text-sm font-medium text-white hover:bg-rose-700 disabled:opacity-50 transition"
                             >
                                 {{ isEditing ? 'Update Workshop' : 'Create Workshop' }}
                             </button>

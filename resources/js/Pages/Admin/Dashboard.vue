@@ -62,7 +62,7 @@ function fillPercent(workshop) {
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <p class="text-sm text-gray-500 mb-1">Confirmed Registrations</p>
-                        <p class="text-3xl font-bold text-indigo-600">{{ stats.total_registrations }}</p>
+                        <p class="text-3xl font-bold text-rose-600">{{ stats.total_registrations }}</p>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <p class="text-sm text-gray-500 mb-1">On Waiting Lists</p>
@@ -101,7 +101,7 @@ function fillPercent(workshop) {
                             <div class="w-full bg-gray-100 rounded-full h-2">
                                 <div
                                     class="h-2 rounded-full transition-all duration-500"
-                                    :class="fillPercent(workshop) >= 100 ? 'bg-red-500' : fillPercent(workshop) >= 75 ? 'bg-amber-500' : 'bg-indigo-500'"
+                                    :class="fillPercent(workshop) >= 100 ? 'bg-red-500' : fillPercent(workshop) >= 75 ? 'bg-amber-500' : 'bg-rose-500'"
                                     :style="{ width: fillPercent(workshop) + '%' }"
                                 ></div>
                             </div>
