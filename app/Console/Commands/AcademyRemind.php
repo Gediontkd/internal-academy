@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Registration;
+use App\Mail\WorkshopReminder;
 use App\Models\Workshop;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -15,10 +15,8 @@ class AcademyRemind extends Command
 
     public function handle(): int
     {
-        $tomorrow = now()->addDay();
-
         $workshops = Workshop::with(['confirmedRegistrations.user'])
-            ->whereDate('start_time', $tomorrow->toDateString())
+            ->whereDate('start_time', now()->addDay()->toDateString())
             ->get();
 
         if ($workshops->isEmpty()) {
@@ -32,19 +30,8 @@ class AcademyRemind extends Command
             foreach ($workshop->confirmedRegistrations as $registration) {
                 $user = $registration->user;
 
-                Mail::send([], [], function ($message) use ($user, $workshop) {
-                    $message
-                        ->to($user->email, $user->name)
-                        ->subject("Reminder: \"{$workshop->title}\" is tomorrow!")
-                        ->html(
-                            "<p>Hi {$user->name},</p>" .
-                            "<p>Just a friendly reminder that you are registered for:</p>" .
-                            "<p><strong>{$workshop->title}</strong><br>" .
-                            "📅 {$workshop->start_time->format('l, d F Y')} at {$workshop->start_time->format('H:i')}</p>" .
-                            "<p>See you there!</p>" .
-                            "<p>— The Internal Academy Team</p>"
-                        );
-                });
+                Mail::to($user->email, $user->name)
+                    ->send(new WorkshopReminder($user, $workshop));
 
                 $emailsSent++;
                 $this->line("  ✉ Sent reminder to {$user->email} for \"{$workshop->title}\"");

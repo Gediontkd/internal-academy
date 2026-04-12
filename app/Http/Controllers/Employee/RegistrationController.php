@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
-use App\Models\Registration;
+use App\Http\Resources\RegistrationResource;
+use App\Http\Resources\WorkshopResource;
 use App\Models\Workshop;
+use App\Services\RegistrationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RegistrationController extends Controller
 {
+    public function __construct(private readonly RegistrationService $registrationService) {}
+
     public function index(Request $request): Response
     {
         $user = $request->user();
@@ -20,16 +23,14 @@ class RegistrationController extends Controller
             ->withCount('confirmedRegistrations')
             ->orderBy('start_time')
             ->get()
-            ->map(fn ($w) => [
-                'id' => $w->id,
-                'title' => $w->title,
-                'description' => $w->description,
-                'start_time' => $w->start_time->toISOString(),
-                'end_time' => $w->end_time->toISOString(),
-                'capacity' => $w->capacity,
-                'available_seats' => max(0, $w->capacity - $w->confirmed_registrations_count),
-                'registration' => $w->registrations()->where('user_id', $user->id)->first()?->only(['id', 'status', 'waiting_position']),
-            ]);
+            ->map(function (Workshop $workshop) use ($user) {
+                $resource = (new WorkshopResource($workshop))->toArray(request());
+                $resource['registration'] = RegistrationResource::make(
+                    $workshop->registrations()->where('user_id', $user->id)->first()
+                )->toArray(request()) ?: null;
+
+                return $resource;
+            });
 
         return Inertia::render('Employee/Dashboard', [
             'workshops' => $workshops,
@@ -38,53 +39,7 @@ class RegistrationController extends Controller
 
     public function store(Request $request, Workshop $workshop)
     {
-        $user = $request->user();
-
-        // Guard: cannot register for a past workshop
-        if ($workshop->start_time->isPast()) {
-            return back()->with('error', 'This workshop has already started.');
-        }
-
-        $error = DB::transaction(function () use ($workshop, $user) {
-            // Lock the workshop row to serialize concurrent registrations
-            Workshop::lockForUpdate()->findOrFail($workshop->id);
-
-            // Already registered?
-            if ($workshop->registrations()->where('user_id', $user->id)->exists()) {
-                return 'You are already registered for this workshop.';
-            }
-
-            // No-ubiquity check: overlapping confirmed registrations
-            $overlap = Registration::where('user_id', $user->id)
-                ->where('status', 'confirmed')
-                ->whereHas('workshop', function ($q) use ($workshop) {
-                    $q->where('start_time', '<', $workshop->end_time)
-                      ->where('end_time', '>', $workshop->start_time);
-                })
-                ->exists();
-
-            if ($overlap) {
-                return 'You already have a confirmed workshop that overlaps with this one.';
-            }
-
-            if ($workshop->isFull()) {
-                $nextPosition = $workshop->waitingRegistrations()->max('waiting_position') + 1;
-                Registration::create([
-                    'workshop_id' => $workshop->id,
-                    'user_id' => $user->id,
-                    'status' => 'waiting',
-                    'waiting_position' => $nextPosition,
-                ]);
-            } else {
-                Registration::create([
-                    'workshop_id' => $workshop->id,
-                    'user_id' => $user->id,
-                    'status' => 'confirmed',
-                ]);
-            }
-
-            return null;
-        });
+        $error = $this->registrationService->register($request->user(), $workshop);
 
         if ($error) {
             return back()->with('error', $error);
@@ -95,52 +50,11 @@ class RegistrationController extends Controller
 
     public function destroy(Request $request, Workshop $workshop)
     {
-        $user = $request->user();
-
         $registration = $workshop->registrations()
-            ->where('user_id', $user->id)
+            ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        DB::transaction(function () use ($registration, $workshop) {
-            $wasConfirmed = $registration->status === 'confirmed';
-            $registration->delete();
-
-            if ($wasConfirmed) {
-                // Promote the first waiting user who has no overlapping confirmed workshop
-                $next = $workshop->waitingRegistrations()
-                    ->whereDoesntHave('user.registrations', function ($q) use ($workshop) {
-                        $q->where('status', 'confirmed')
-                          ->whereHas('workshop', function ($q2) use ($workshop) {
-                              $q2->where('start_time', '<', $workshop->end_time)
-                                 ->where('end_time', '>', $workshop->start_time);
-                          });
-                    })
-                    ->first();
-
-                if ($next) {
-                    $next->update([
-                        'status' => 'confirmed',
-                        'waiting_position' => null,
-                    ]);
-
-                    // Re-number remaining waiting list
-                    $workshop->waitingRegistrations()
-                        ->orderBy('waiting_position')
-                        ->get()
-                        ->each(function ($reg, $index) {
-                            $reg->update(['waiting_position' => $index + 1]);
-                        });
-                }
-            } else {
-                // Re-number remaining waiting list
-                $workshop->waitingRegistrations()
-                    ->orderBy('waiting_position')
-                    ->get()
-                    ->each(function ($reg, $index) {
-                        $reg->update(['waiting_position' => $index + 1]);
-                    });
-            }
-        });
+        $this->registrationService->cancel($registration);
 
         return back()->with('success', 'Registration cancelled.');
     }

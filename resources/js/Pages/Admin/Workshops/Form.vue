@@ -12,8 +12,8 @@ const isEditing = computed(() => !!props.workshop);
 const form = useForm({
     title: props.workshop?.title ?? '',
     description: props.workshop?.description ?? '',
-    start_time: props.workshop?.start_time ?? '',
-    end_time: props.workshop?.end_time ?? '',
+    start_time: props.workshop?.start_time_input ?? '',
+    end_time: props.workshop?.end_time_input ?? '',
     capacity: props.workshop?.capacity ?? 10,
 });
 
