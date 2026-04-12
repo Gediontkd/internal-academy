@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\RegistrationResource;
-use App\Http\Resources\WorkshopResource;
+use App\Http\Resources\WorkshopWithRegistrationResource;
 use App\Models\Workshop;
 use App\Services\RegistrationService;
 use Illuminate\Http\Request;
@@ -21,19 +20,17 @@ class RegistrationController extends Controller
 
         $workshops = Workshop::where('start_time', '>', now())
             ->withCount('confirmedRegistrations')
+            ->with(['registrations' => fn ($q) => $q->where('user_id', $user->id)])
             ->orderBy('start_time')
-            ->get()
-            ->map(function (Workshop $workshop) use ($user) {
-                $resource = (new WorkshopResource($workshop))->toArray(request());
-                $resource['registration'] = RegistrationResource::make(
-                    $workshop->registrations()->where('user_id', $user->id)->first()
-                )->toArray(request()) ?: null;
-
-                return $resource;
-            });
+            ->get();
 
         return Inertia::render('Employee/Dashboard', [
-            'workshops' => $workshops,
+            'workshops' => $workshops->map(
+                fn ($workshop) => new WorkshopWithRegistrationResource(
+                    $workshop,
+                    $workshop->registrations->first()
+                )
+            ),
         ]);
     }
 

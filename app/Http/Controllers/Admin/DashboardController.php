@@ -37,8 +37,8 @@ class DashboardController extends Controller
             'total_workshops'     => Workshop::count(),
             'total_registrations' => Registration::where('status', 'confirmed')->count(),
             'total_waiting'       => Registration::where('status', 'waiting')->count(),
-            'most_popular'        => $mostPopular ? (new WorkshopResource($mostPopular))->toArray(request()) : null,
-            'workshops'           => WorkshopResource::collection($workshops)->toArray(request()),
+            'most_popular'        => $mostPopular ? WorkshopResource::make($mostPopular) : null,
+            'workshops'           => WorkshopResource::collection($workshops),
         ];
     }
 }
